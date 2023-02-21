@@ -1,0 +1,34 @@
+version: "3.8"
+services:
+
+  app:
+    container_name: rems_app
+    image: cscfi/rems:latest
+    ports:
+      - "127.0.0.1:3000:3000"
+    volumes:
+      - ./config.edn:/rems/config/config.edn
+      - ./styles.css:/rems/theme/styles.css
+      - ./theme.edn:/rems/theme/theme.edn
+      - ./en.edn:/rems/theme/extra-translations/en.edn
+      - ./logo_medium.png:/rems/theme/public/img/logo_medium.png
+      - ./logo_small.png:/rems/theme/public/img/logo_small.png
+      - ./ls_login.png:/rems/theme/public/img/ls_login.png
+      - ./private-key.jwk:/rems/keys/private-key.json
+      - ./public-key.jwk:/rems/keys/public-key.json
+
+  db:
+    container_name: rems_db
+    image: postgres:13
+    environment:
+      POSTGRES_USER: rems
+      POSTGRES_PASSWORD: remspassword
+    ports:
+      - "127.0.0.1:5432:5432"
+    # remove this if you don't want a persistent database
+    volumes:
+    - remsdb:/var/lib/postgresql/data
+
+volumes:
+  remsdb:
+    driver: local
