@@ -4,6 +4,13 @@
 
 This repository provides a basic local deployment of REMS with GDI branding. See [REMS repository](https://github.com/CSCfi/rems) for more documentation regarding deployment and configuration.
 
+### Requirements
+This starter kit was development on linux, the following tools are required:
+- docker
+- docker-compose
+- python3
+- curl
+
 ## Preliminary Requirements
 
 ### Register an OIDC RP client for authentication
