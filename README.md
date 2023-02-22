@@ -30,6 +30,11 @@ JWKs are stored in `private-key.jwk` and `public-key.jwk`.
 
 ## Starting REMS
 
+- REMS will be served at <http://localhost:3000>
+- Swagger API is available at <http://localhost:3000/swagger-ui/index.html>
+
+### First time setup
+
 Start and initialise the database
 ```
 docker-compose up -d db
@@ -41,8 +46,12 @@ Start REMS app
 docker-compose up -d app
 ```
 
-- REMS will be served at <http://localhost:3000>
-- Swagger API is available at <http://localhost:3000/swagger-ui/index.html>
+### Re-deployments
+
+For re-deployments, when you already have an initialised database, you can simply run
+```
+docker-compose up -d
+```
 
 ## Using REMS
 

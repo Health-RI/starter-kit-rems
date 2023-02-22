@@ -1,9 +1,12 @@
-version: "3.8"
+version: "3.9"
 services:
 
   app:
     container_name: rems_app
     image: cscfi/rems:latest
+    depends_on:
+      db:
+        condition: service_started
     ports:
       - "127.0.0.1:3000:3000"
     volumes:
@@ -14,13 +17,14 @@ services:
       - ./logo_medium.png:/rems/theme/public/img/logo_medium.png
       - ./logo_small.png:/rems/theme/public/img/logo_small.png
       - ./ls_login.png:/rems/theme/public/img/ls_login.png
-      - ./private-key.jwk:/rems/keys/private-key.json
-      - ./public-key.jwk:/rems/keys/public-key.json
+      - ./private-key.jwk:/rems/keys/private-key.jwk
+      - ./public-key.jwk:/rems/keys/public-key.jwk
 
   db:
     container_name: rems_db
     image: postgres:13
     environment:
+      POSTGRES_DB: rems
       POSTGRES_USER: rems
       POSTGRES_PASSWORD: remspassword
     ports:
@@ -28,6 +32,20 @@ services:
     # remove this if you don't want a persistent database
     volumes:
     - remsdb:/var/lib/postgresql/data
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "pg_isready",
+          "-h",
+          "localhost",
+          "-U",
+          "rems"
+        ]
+      interval: 10s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
 
 volumes:
   remsdb:
