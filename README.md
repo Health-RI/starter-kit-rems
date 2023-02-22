@@ -23,7 +23,7 @@ Using the ready-made test client requires
 ### Create a JWK pair for GA4GH visas
 JWK is used to sign GA4GH visas which hold permissions for third parties.
 ```
-pip install Authlib cryptography
+pip install Authlib
 python generate_jwks.py
 ```
 JWKs are stored in `private-key.jwk` and `public-key.jwk`.
