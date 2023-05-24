@@ -5,8 +5,7 @@ public_key_file = "public-key.jwk"
 private_key_file = "private-key.jwk"
 
 if __name__ == "__main__":
-
-    key = RSAKey.generate_key(is_private=True)
+    key = RSAKey.generate_key(is_private=True, options={"kid": "gdi-demo"})
 
     public_jwk = key.as_dict(is_private=False)
     private_jwk = dict(key)
