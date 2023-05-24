@@ -19,8 +19,10 @@ This starter kit was development on linux, the following tools are required:
 You can request a ready-made and configured test client from GDI Slack, or create your own OIDC RP client at [Life Science AAI service registration](https://spreg-legacy.aai.elixir-czech.org/).
 
 Using the ready-made test client requires
-- [LS AAI Test group membership](https://signup.aai.lifescience-ri.eu/fed/registrar/?vo=lifescience_test)
-- LS AAI Perun GDI test group membership (request access separately with client credentials)
+- [LS AAI Test group membership](https://signup.aai.lifescience-ri.eu/fed/registrar/?vo=lifescience_test) (self-service)
+- LS AAI Perun GDI test group membership (added by the test OIDC RP owner)
+
+Place your OIDC RP credentials to the [config.edn](config.edn#L7-L8).
 
 ### Create a JWK pair for GA4GH visas
 JWK is used to sign GA4GH visas which hold permissions for third parties.
