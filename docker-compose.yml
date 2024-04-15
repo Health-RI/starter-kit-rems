@@ -1,51 +1,58 @@
-version: "3.9"
-services:
+version: "3"
 
+services:
   app:
-    container_name: rems_app
-    image: cscfi/rems:latest
+    build:
+      context: rems/
+    env_file:
+      - .env
+    ports:
+      - "0.0.0.0:3000:3000" 
+    environment:
+      DATABASE_URL: ${REMS_DATABASE_URL}
+      PUBLIC_URL: ${REMS_PUBLIC_URL}
+      OIDC_METADATA_URL: ${REMS_OIDC_METADATA_URL}
+      OIDC_CLIENT_ID: ${REMS_OIDC_CLIENT_ID}
+      OIDC_CLIENT_SECRET: ${REMS_OIDC_CLIENT_SECRET}
     depends_on:
       db:
-        condition: service_started
-    ports:
-      - "127.0.0.1:3000:3000"
-    volumes:
-      - ./config.edn:/rems/config/config.edn
-      - ./styles.css:/rems/theme/styles.css
-      - ./theme.edn:/rems/theme/theme.edn
-      - ./en.edn:/rems/theme/extra-translations/en.edn
-      - ./logo_medium.png:/rems/theme/public/img/logo_medium.png
-      - ./logo_small.png:/rems/theme/public/img/logo_small.png
-      - ./ls_login.png:/rems/theme/public/img/ls_login.png
-      - ./private-key.jwk:/rems/keys/private-key.jwk
-      - ./public-key.jwk:/rems/keys/public-key.jwk
+        condition: service_healthy
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "wget",
+          "-qO",
+          "/dev/null",
+          "http://localhost:3000/api/health"
+        ]
 
   db:
-    container_name: rems_db
-    image: postgres:13
+    build:
+      context: postgresql/
+    env_file:
+      - .env
     environment:
-      POSTGRES_DB: rems
-      POSTGRES_USER: rems
-      POSTGRES_PASSWORD: remspassword
-    ports:
-      - "127.0.0.1:5432:5432"
-    # remove this if you don't want a persistent database
+      - POSTGRES_USER
+      - POSTGRES_PASSWORD
+      - POSTGRES_DB
+      - REMS_DB_USER
+      - REMS_DB_PASSWORD
+      - REMS_DB
     volumes:
-    - remsdb:/var/lib/postgresql/data
+      - remsdb:/var/lib/postgresql/data
     healthcheck:
       test:
         [
           "CMD",
           "pg_isready",
-          "-h",
-          "localhost",
           "-U",
-          "rems"
+          "${POSTGRES_USER}",
+          "-d",
+          "${POSTGRES_DB}"
         ]
-      interval: 10s
-      timeout: 10s
-      retries: 3
-      start_period: 10s
+    ports:
+      - "127.0.0.1:5432:5432"
 
 volumes:
   remsdb:

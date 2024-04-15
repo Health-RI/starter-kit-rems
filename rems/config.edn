@@ -1,11 +1,10 @@
+; SPDX-FileCopyrightText: 2024 Stichting Health-RI
+;
+; SPDX-License-Identifier: Apache-2.0
+
 {:port 3000
- :public-url "http://localhost:3000/"
- :database-url "postgresql://db:5432/rems?user=rems&password=remspassword"
  :search-index-path "/tmp/rems-search-index"
  :authentication :oidc
- :oidc-metadata-url "https://login.elixir-czech.org/oidc/.well-known/openid-configuration"
- :oidc-client-id ""
- :oidc-client-secret ""
  :oidc-scopes "openid profile email"
  :oidc-userid-attributes [{:attribute "sub"}]
  :oidc-name-attributes ["name" "unique_name" "family_name"]
@@ -22,4 +21,6 @@
  :enable-autosave true
  :extra-stylesheets {:root "./" :files ["/theme/styles.css"]}
  :theme-path "/rems/theme/theme.edn"
- :extra-pages-path "/rems/extra-pages"}
+ :extra-pages-path "/rems/extra-pages"
+ :enable-voting true 
+ :enable-processing-states true}
