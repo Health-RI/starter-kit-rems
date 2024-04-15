@@ -6,10 +6,9 @@
 name: Publish and Deploy main
 
 on:
-  workflow_run:
-    branches: [main]
-    types:
-      - completed
+  push:
+    branches:
+      - main
 
 env:
   REGISTRY: ghcr.io
