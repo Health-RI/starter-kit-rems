@@ -1,3 +1,7 @@
 private-key.jwk
 public-key.jwk
 devconfig.edn
+.env
+venv
+
+__pycache__
