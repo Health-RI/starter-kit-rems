@@ -11,7 +11,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ghcr.io/genomicdatainfrastructure/starter-kit-rems
+  IMAGE_NAME: ghcr.io/health-ri/starter-kit-rems
 
 jobs:
   ort:
